@@ -1,0 +1,10 @@
+{
+    "name": "PolycomHotpot",
+    "description": "The application to interact with the leading enterprise audio/video/communication product Polycom.",
+    "homepage": "https://github.com/xiaoleiy/polycom",
+    "version": "0.0.1",
+    "private": true,
+    "dependencies": {
+        "express": "~4.9.0"
+    }
+}
