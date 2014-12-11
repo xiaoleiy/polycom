@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>test</title>
+    <script type="text/javascript" src="./jquery-1.11.1.js"></script>
+</head>
+<body>
+
+<h2>Oh it's night!</h2>
+<script type="text/javascript">
+    jQuery.ajax({
+        url: 'http://127.0.0.1/push',
+        type:'POST',
+        data: '<PolycomIPPhone>\n'
+            + '<Data priority="Critical"> <h1> Fire Drill at 2pm </h1> Please exit and congregate at your appropriate location outside </Data>\n'
+            + '</PolycomIPPhone>',
+        headers: {
+            'Content-Type': 'application/x-com-polycom-spipx'
+        },
+        contentType: 'application/x-com-polycom-spipx',
+        crossDomain: true,
+        username: 'Polycom',
+        password: '456',
+        success: function(data, textStatus, jqXHR){
+            console.info('succeed: ' + data);
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown){
+            console.info('failed: ' + textStatus);
+        }
+    });
+</script>
+</body>
+</html>

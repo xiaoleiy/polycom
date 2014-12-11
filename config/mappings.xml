@@ -1,0 +1,33 @@
+<!-- TODO: to change the root name -->
+<root>
+
+    <!-- The mappings for the data flow from Polycom phone to the hardware -->
+    <notification>
+
+        <!-- The sender is Polycom phone here in the notification context-->
+        <sender>127.0.0.1</sender>
+
+        <!-- All the receivers will receive manipulated data sent from the sender -->
+        <receivers>
+            <receiver>127.0.0.1</receiver>
+            <receiver>192.168.1.101</receiver>
+            <receiver>192.168.1.102</receiver>
+            <receiver>192.168.1.103</receiver>
+        </receivers>
+    </notification>
+
+    <!-- The mappings for the data flow from the hardware to Polycom phones -->
+    <datapush>
+
+        <!-- The sender is a hardware in the context of datapush -->
+        <sender>127.0.0.1</sender>
+
+        <!-- All the receivers will receive data sent from the sender -->
+        <receivers>
+            <receiver>127.0.0.1</receiver>
+            <receiver>192.168.1.101</receiver>
+            <receiver>192.168.1.102</receiver>
+            <receiver>192.168.1.103</receiver>
+        </receivers>
+    </datapush>
+</root>
