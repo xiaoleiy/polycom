@@ -6,9 +6,7 @@
 var http = require('http');
 
 
-var pushdata = '<PolycomIPPhone>\n'
-    + '<Data priority="Critical">\nKey:Line1\nKey:DailPad0\nKey:DailPad1\n</Data>\n'
-    + '</PolycomIPPhone>';
+var pushdata = "<PolycomIPPhone><Data priority=\"Critical\">Key:Directories</Data></PolycomIPPhone>";
 
 // var auth = 'Basic ' + new Buffer('Polycom:456').toString('base64');
 var req = http.request({
@@ -18,10 +16,10 @@ var req = http.request({
     method: 'POST',
     headers: {
         'Content-Type': 'application/x-com-polycom-spipx',
-        'Authorization': auth,
-        'User-Agent': 'Mozilla/5.0'
+//        'Authorization': auth
+        'Authorization': 'Digest username="Polycom", nonce="40787c47", algorithm=MD5'
     },
-    agent: { maxSockets: 100}
+//    agent: { maxSockets: 100}
     auth: 'Polycom:456'
 }, function(response){
     var str = '';
@@ -39,6 +37,7 @@ var req = http.request({
 
 req.write(pushdata);
 req.end();
+/*
 
 request.post('http://127.0.0.1/push', {
     auth: {
@@ -65,6 +64,6 @@ request.post('http://127.0.0.1/push', {
 
 module.exports = {
 	pushAction: function(action) {
-		
+
 	}
-};
+};*/

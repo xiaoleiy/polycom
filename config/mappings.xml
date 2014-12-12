@@ -1,5 +1,5 @@
 <!-- TODO: to change the root name -->
-<root>
+<mappings>
 
     <!-- The mappings for the data flow from Polycom phone to the hardware -->
     <notification>
@@ -10,9 +10,9 @@
         <!-- All the receivers will receive manipulated data sent from the sender -->
         <receivers>
             <receiver>127.0.0.1</receiver>
-            <receiver>192.168.1.101</receiver>
-            <receiver>192.168.1.102</receiver>
-            <receiver>192.168.1.103</receiver>
+            <receiver>127.0.0.1</receiver>
+            <receiver>localhost</receiver>
+            <receiver>localhost</receiver>
         </receivers>
     </notification>
 
@@ -25,9 +25,9 @@
         <!-- All the receivers will receive data sent from the sender -->
         <receivers>
             <receiver>127.0.0.1</receiver>
-            <receiver>192.168.1.101</receiver>
-            <receiver>192.168.1.102</receiver>
-            <receiver>192.168.1.103</receiver>
+            <receiver>127.0.0.1</receiver>
+            <receiver>localhost</receiver>
+            <receiver>localhost</receiver>
         </receivers>
     </datapush>
-</root>
+</mappings>
