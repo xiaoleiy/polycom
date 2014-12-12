@@ -3,46 +3,47 @@
  *
  * Created by idealab on 12/11/2014.
  */
-var telnet = require('telnet-client');
+var net = require('net');
 
 module.exports = {
-
     /**
-     * Send the packet in synchronized to the device with given ip address
+     * Send the packet in synchronized to the device with given serverip address
      *
-     * @param ip The target device's ip address where the packet will be sent
+     * @param serverip The target device's serverip address where the packet will be sent
+     * @param serverport The port on which the target device listen
      * @param packet The packet to be sent
      */
-    send: function (ip, packet) {
-        var connection = new telnet();
-        var params = {
-          host: ip,
-          port: 23,
-          shellPrompt: '/ # ',
-          timeout: 1500
-          // removeEcho: 4
-        };
-
-        connection.on('ready', function(prompt) {
-          connection.exec(packet, function(response) {
-            console.log(response);
-          });
+    send: function (serverip, serverport, packet) {
+        var client = net.connect(serverport || '23', serverip);
+        client.on('data', function (data) {
+            console.info('' + data);
+//            process.stdin.once('data', function(chunk){
+//                client.write(chunk.toString());
+//            });
+        }).on('connect', function () {
+            console.info('Connected to the server ' + serverip + ':' + serverport);
+            client.write(packet);
+        }).on('error', function (err) {
+            console.error(err);
+        }).on('timeout', function(){
+            client.destroy();
         });
-
-        connection.on('timeout', function() {
-          console.log('telnet connection to ' + ip + ' timeout!');
-          connection.end();
-        });
-
-        connection.on('close', function() {
-          console.log('telnet connection to ' + ip + ' closed.');
-        });
-
-        connection.connect(params);
     },
 
     sendAsync: function (ip, packet) {
 
     }
 };
+//
+//var client = net.connect('9001', 'localhost');
+//client.on('data', function(data) {
+//  console.log('' + data);
+//  process.stdin.once('data', function (chunk) {
+//    client.write(chunk.toString());
+//  });
+//}).on('connect', function() {
+//  console.info('connected to localhost:9001');
+//}).on('end', function() {
+//  console.log('Disconnected');
+//});
 

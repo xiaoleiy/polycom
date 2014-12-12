@@ -3,7 +3,7 @@
  */
 
 var fs       = require('fs'),
-    parsexml = require('xml2js'),
+    xml2js = require('xml2js'),
     mappings = require('./utils/mappings'),
     callHandlers = require('./handlers/call-events'),
     hooksHandler = require('./handlers/hook-events'),
@@ -37,18 +37,27 @@ module.exports = {
      * @param data The notification data in JSON format, which has the same structure with the original XML packet.
      */
     notification: function(data) {
-        var notificationBody = data.PolycomIPPhone;
-        var eventType = Object.getOwnPropertyNames(notificationBody)[0];
+        var inboundData = data.PolycomIPPhone;
+        var eventType = Object.getOwnPropertyNames(inboundData)[0];
         var handler = handlers[eventType];
         if (!handler) {
             console.error('Received invalid event which could be not processed: ' + eventType);
             return;
         }
 
-        var handledData = hanlder(notificationBody);
-        var phoneIP = notificationBody.PhoneIP;
+        var outboundData = hanlder(inboundData);
+
+        // TODO: to confirm the data format with Alexander, is it in XML format?
+        var outboundDataXml = new xml2js.Builder({
+            rootName: 'root',
+            headless: true
+        }).buildObjet(outboundData);
+
+        var phoneIP = inboundData.PhoneIP;
         var receivers = mappings.notification[phoneIP];
         // TODO: to send packet to receivers via telnetclient.js
+
+
     },
 
     /**

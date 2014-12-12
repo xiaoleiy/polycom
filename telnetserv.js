@@ -37,6 +37,7 @@ function receiveData(socket, data) {
 function closeSocket(socket) {
     var i = sockets.indexOf(socket);
     if (i != -1) {
+        socket.end();
         sockets.splice(i, 1);
     }
 }
@@ -57,7 +58,8 @@ function newSocket(socket) {
 }
 
 // Create a new server and provide a callback for when a connection occurs
-var server = net.createServer({allowHalfOpen: true}, newSocket);
+var server = net.createServer(newSocket);
 
 // Listen on port 23
-server.listen(23);
+server.listen(9001);
+console.info('Started telnet server on port 9001');
