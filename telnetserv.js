@@ -6,6 +6,7 @@
  */
 
 var net     = require('net'),
+	routers = require('routers'),
     sockets = [];
 
 /*
@@ -16,28 +17,13 @@ function cleanInput(data) {
 }
 
 /*
- * Method executed when data is received from a socket
- */
-function receiveData(socket, data) {
-    var cleanData = cleanInput(data);
-    if (cleanData === "@quit") {
-        socket.end('Goodbye!\n');
-    }
-
-    for (var i = 0; i < sockets.length; i++) {
-        if (sockets[i] === socket) {
-            sockets[i].write(data);
-        }
-    }
-}
-
-/*
  * Method executed when a socket ends
  */
 function closeSocket(socket) {
-    var i = sockets.indexOf(socket);
-    if (i != -1) {
+    var idx = sockets.indexOf(socket);
+    if (idx != -1) {
         socket.end();
+        socket.destroy();
         sockets.splice(i, 1);
     }
 }
@@ -46,12 +32,35 @@ function closeSocket(socket) {
  * Callback method executed when a new TCP socket is opened.
  */
 function newSocket(socket) {
+    var welcome = 'Welcome to the telnet server!\n'
+				+ 'usage: \n'
+				+ '\tpushaction <action_uri_key>\n';
+    socket.write(welcome);
     sockets.push(socket);
-    socket.write('Welcome to the Telnet server!\n');
     socket.on('data', function (data) {
-        receiveData(socket, data);
+    	var cleanData = cleanInput(data);
+		if (cleanData === "quit") { socket.end('Goodbye!\n'); }
+		if (data.test(/^pushaction.*(\r\n|\n|\r)$/gm)) {
+			sockets[i].attached += cleanData;
+			routers.datapush(sockets[i].attached);
+			sockets[i].attached = '';
+			return;
+		} else if (data.test(/(\r\n|\n|\r)$/gm)) {
+			var usage = 'invalid syntax for pushing data to Polycom phones.\nusage: \n\tpushaction <action_uri_key>\n';
+			sockets[i].write(usage);
+			sockets[i].attached = '';
+		}
+        
+		for (var i = 0; i < sockets.length; i++) {
+			if (sockets[i] === socket) {
+				// sockets[i].write(data);
+				sockets[i].attached += cleanData;
+				break;
+			}
+		}
         console.log(data.toString());
     });
+    
     socket.on('end', function () {
         closeSocket(socket);
     });
@@ -62,4 +71,4 @@ var server = net.createServer(newSocket);
 
 // Listen on port 23
 server.listen(9001);
-console.info('Started telnet server on port 9001');
+console.info('Started telnet server on port 9001.');

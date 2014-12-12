@@ -1,5 +1,8 @@
 /**
- * Created by idealab on 12/12/2014.
+ * The handler to manipulate the event notifications of Line Phone Locked and Unlocked
+ * , received from the Polycom phone.
+ * 
+ * Created by Xiaolei Y. on 12/11/2014.
  */
 
 module.exports = {

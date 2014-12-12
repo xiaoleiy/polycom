@@ -13,8 +13,8 @@ module.exports = {
      * @param serverport The port on which the target device listen
      * @param packet The packet to be sent
      */
-    send: function (serverip, serverport, packet) {
-        var client = net.connect(serverport || '23', serverip);
+    send: function (serverip, packet) {
+        var client = net.connect('23', serverip);
         client.on('data', function (data) {
             console.info('' + data);
 //            process.stdin.once('data', function(chunk){
@@ -22,10 +22,12 @@ module.exports = {
 //            });
         }).on('connect', function () {
             console.info('Connected to the server ' + serverip + ':' + serverport);
-            client.write(packet);
+            client.end(packet);
+            client.destroy();
         }).on('error', function (err) {
             console.error(err);
         }).on('timeout', function(){
+            console.info('The connection to server ' + serverip + ':' + serverport + ' timed out!');
             client.destroy();
         });
     },
