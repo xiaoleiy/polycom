@@ -1,5 +1,5 @@
 <!-- TODO: to change the root name -->
-<mappings>
+<root>
 
     <!-- The mappings for the data flow from Polycom phone to the hardware -->
     <notification>
@@ -30,4 +30,4 @@
             <receiver>localhost</receiver>
         </receivers>
     </datapush>
-</mappings>
+</root>

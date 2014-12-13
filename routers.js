@@ -8,7 +8,7 @@
 
 var fs       		 = require('fs'),
     xml2js 			 = require('xml2js'),
-    telnetclient 	 = require('telnetclient'),
+    telnetclient 	 = require('./telnetclient'),
     mappings 		 = require('./utils/mappings'),
     callHandlers 	 = require('./handlers/call-events'),
     hooksHandler 	 = require('./handlers/hook-events'),
@@ -51,15 +51,15 @@ module.exports = {
             return;
         }
 
-        var outboundData = hanlder(inboundData);
+        var outboundData = handler(inboundData);
 
         // TODO: to confirm the data format with Alexander, is it in XML format?
         var outboundDataXml = new xml2js.Builder({
             rootName: 'root',
             headless: true
-        }).buildObjet(outboundData);
+        }).buildObject(outboundData);
 
-        var receivers = mappings.notification[inboundData.PhoneIP];
+        var receivers = mappings.notification(inboundData.PhoneIP);
         // TODO: to send packet to receivers via telnetclient.js
 
 		for (var idx = 0; idx < receivers.length; idx++) {
@@ -75,6 +75,6 @@ module.exports = {
      */
     datapush: function(inboundData) {
 		var outboundData = actionUriHandler.unmarshall(inboundData);
-		phoneActionUriHandler.pushAction(outboundData);
+		phoneActionUriHandler.pushaction(outboundData.ipAddress, outboundData);
     }
 }

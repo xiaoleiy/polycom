@@ -3,22 +3,18 @@
  *
  * Created by Xiaolei Y. on 12/10/2014.
  */
-var fs = require('fs'),
-    url = require('url'),
-    path = require('path'),
-    http = require('http'),
-    request = require('request'),
+var http = require('http'),
     parsexml = require('xml2js').parseString,
-    routers = require('routers');
+    routers = require('./routers');
 
 http.globalAgent.maxSockets = 100;
-
 http.createServer(function (request, response) {
 
+    console.info('request url: ' + request.url);
     /**
      * Finish current session when request other than event notification received
      */
-    if (request.method != 'POST' || request.url != '/notification') {
+    if (request.method != 'POST' || request.url != '/notifications') {
         response.writeHead(400);
         response.end();
         return;
@@ -35,6 +31,8 @@ http.createServer(function (request, response) {
             return;
         }
 
+        console.info('received notification: \n' + notification);
+
         parsexml(notification, function(err, parsed){
             // TODO: error handling
             if (err) {
@@ -44,14 +42,13 @@ http.createServer(function (request, response) {
 
             routers.notification(parsed);
         });
-
     });
 
 //    var req_params = url.parse(request.url).query;
 //    console.info('request url: ' + request.url + '\t params: ' + req_params);
 //    var username = querystring.parse(req_params);
 //    var username = querystring.parse(req_params)['username'];
-}).listen(8080);
+}).listen(9090);
 
 //http.createServer(function (request, response) {
 //

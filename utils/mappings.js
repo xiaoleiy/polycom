@@ -9,30 +9,28 @@
 
 var fs = require('fs'),
     path = require('path'),
-    parsexml = require('xml2js');
+    parsexml = require('xml2js').parseString;
 
-var _mappingsFilename     = 'mappings.xml',
-    _mappingsFilepath     = '..' + path.sep + 'config' + path.sep + _mappingsFilename,
+var _mappingsFilepath     = './' + path.sep + 'config' + path.sep + 'mappings.xml',
     _mappingsNotification = _mappingsNotification || {},
     _mappingsDatapush     = _mappingsDatapush || {},
     lastModifiedTime      = 0;
 
 function loadMappings() {
-    var mappingsXml = fs.readFileSync();
+    var mappingsXml = fs.readFileSync(_mappingsFilepath);
     parsexml(mappingsXml, function(err, parsed){
         // TODO: to handle the error
         if (err) {
-            console.error('The config ' + _mappingsFilename + ' is invalid XML. Mappings will not be available for routers.')
+            console.error('The config ' + _mappingsFilepath + ' is invalid XML. Mappings will not be available for routers.')
             return;
         }
 
-        // TODO: to assign the relation to variables.
-        var ntfSender = parsed.root.notification.sender,
-            ntfReceivers = parsed.root.notification.receivers;
-        _mappingsNotification[ntfSender] = ntfReceivers;
+        var notificationSender = parsed.root.notification[0].sender[0],
+            notificationReceivers = parsed.root.notification[0].receivers[0].receiver;
+        _mappingsNotification[notificationSender] = notificationReceivers;
 
-        var datapushSender = parsed.root.datapush.sender,
-            datapushReceivers = parsed.root.datapush.receivers;
+        var datapushSender = parsed.root.datapush[0].sender[0],
+            datapushReceivers = parsed.root.datapush[0].receivers[0].receiver;
         _mappingsDatapush[datapushSender] = datapushReceivers;
     });
 }
@@ -52,17 +50,17 @@ function isMappingsChanged() {
 }
 
 module.exports = {
-    notification: function(){
+    notification: function(src_ip){
         if (isMappingsChanged()) {
             loadMappings();
         }
-        return _mappingsNotification;
+        return _mappingsNotification[src_ip];
     },
 
-    datapush: function() {
+    datapush: function(src_ip) {
         if (isMappingsChanged()) {
             loadMappings();
         }
-        return _mappingsDatapush;
+        return _mappingsDatapush[src_ip];
     }
-}
+};

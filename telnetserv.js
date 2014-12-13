@@ -70,5 +70,5 @@ function newSocket(socket) {
 var server = net.createServer(newSocket);
 
 // Listen on port 23
-server.listen(9001);
+server.listen(9023);
 console.info('Started telnet server on port 9001.');
