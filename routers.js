@@ -71,7 +71,7 @@ module.exports = {
     /**
      * The router definition for datapush data flow, which comes from the hardware and send to Polycom phones.
      *
-     * @param data The notification data in JSON format, which has the same structure with the original XML packet.
+     * @param inboundData The notification data in JSON format, which has the same structure with the original XML packet.
      */
     datapush: function(inboundData) {
 		var outboundData = actionUriHandler.unmarshall(inboundData);

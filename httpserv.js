@@ -3,9 +3,10 @@
  *
  * Created by Xiaolei Y. on 12/10/2014.
  */
-var http = require('http'),
-    parsexml = require('xml2js').parseString,
-    routers = require('./routers');
+var http     = require('http'),
+    xml2js   = require('xml2js'),
+    xmlparser = new xml2js.Parser(xml2js.defaults["0.1"]);
+    routers  = require('./routers');
 
 http.globalAgent.maxSockets = 100;
 http.createServer(function (request, response) {
@@ -33,13 +34,14 @@ http.createServer(function (request, response) {
 
         console.info('received notification: \n' + notification);
 
-        parsexml(notification, function(err, parsed){
+        xmlparser.parseString(notification, function(err, parsed){
             // TODO: error handling
             if (err) {
                 console.error('Failed to parse the incoming notification from XMl format to JSON.');
                 return;
             }
 
+            console.dir(parsed);
             routers.notification(parsed);
         });
     });

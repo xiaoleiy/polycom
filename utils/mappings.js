@@ -7,9 +7,10 @@
  * Created by Xiaolei Y. on 12/11/2014.
  */
 
-var fs = require('fs'),
-    path = require('path'),
-    parsexml = require('xml2js').parseString;
+var fs          = require('fs'),
+    path        = require('path'),
+    xml2js 		= require('xml2js'),
+    xmlparser   = new xml2js.Parser(xml2js.defaults["0.1"]);
 
 var _mappingsFilepath     = './' + path.sep + 'config' + path.sep + 'mappings.xml',
     _mappingsNotification = _mappingsNotification || {},
@@ -18,7 +19,7 @@ var _mappingsFilepath     = './' + path.sep + 'config' + path.sep + 'mappings.xm
 
 function loadMappings() {
     var mappingsXml = fs.readFileSync(_mappingsFilepath);
-    parsexml(mappingsXml, function(err, parsed){
+    xmlparser.parseString(mappingsXml, function(err, parsed){
         // TODO: to handle the error
         if (err) {
             console.error('The config ' + _mappingsFilepath + ' is invalid XML. Mappings will not be available for routers.')
