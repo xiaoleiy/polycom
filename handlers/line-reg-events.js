@@ -19,7 +19,7 @@ module.exports = {
      * @param notification The notification data body in javascript object format
      * @returns {*}
      */
-    lineregHanlder: function (notification) {
+    hanldeLineReg: function (notification) {
         console.info('To process the notification packet of LineRegistrationEvent');
         return notification;
     },
@@ -37,7 +37,7 @@ module.exports = {
      * @param notification The notification data body in javascript object format
      * @returns {*}
      */
-    lineUnregHandler: function (notification) {
+    hanldeLineUnreg: function (notification) {
         console.info('To process the notification packet of LineUnregistrationEvent');
         return notification;
     }

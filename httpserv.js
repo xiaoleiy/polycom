@@ -37,12 +37,12 @@ http.createServer(function (request, response) {
         xmlparser.parseString(notification, function(err, parsed){
             // TODO: error handling
             if (err) {
-                console.error('Failed to parse the incoming notification from XMl format to JSON.');
+                console.error('Failed to parse the incoming notification from XML format to JSON. XML data: \n' + notification);
                 return;
             }
 
             console.dir(parsed);
-            routers.notification(parsed);
+            routers.phone2device(parsed);
         });
     });
 

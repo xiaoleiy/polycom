@@ -22,7 +22,7 @@ module.exports = {
      * @param notification The notification data body in javascript object format
      * @returns {*}
      */
-    incomingCallHanlder: function (notification) {
+    handleIncomingCall: function (notification) {
         console.info('To process the notification packet of IncomingCallEvent');
         // TODO to provide your code to manipulate the incoming notification data
         return notification;
@@ -44,7 +44,7 @@ module.exports = {
      * @param notification The notification data body in javascript object format
      * @returns {*}
      */
-    outgoingCallHandler: function (notification) {
+    handleOutgoingCall: function (notification) {
         console.info('To process the notification packet of OutgoingCallEvent');
         // TODO to provide your code to manipulate the incoming notification data
         return notification;
@@ -79,7 +79,7 @@ module.exports = {
      * @param notification The notification data body in javascript object format
      * @returns {*}
      */
-    callstateChangeHandler: function (notification) {
+    hanldeCallstateChange: function (notification) {
         console.info('To process the notification packet of CallStateChangeEvent');
         // TODO to provide your code to manipulate the incoming notification data
         return notification;

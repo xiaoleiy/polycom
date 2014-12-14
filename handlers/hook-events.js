@@ -18,7 +18,7 @@ module.exports = {
      * @param notification The notification data body in javascript object format
      * @returns {*}
      */
-    offhookHanlder: function (notification) {
+    hanldeOffhook: function (notification) {
         console.info('To process the notification packet of OffHookEvent');
         // TODO to provide your code to manipulate the incoming notification data
         return notification;
@@ -36,7 +36,7 @@ module.exports = {
      * @param notification The notification data body in javascript object format
      * @returns {*}
      */
-    onhookHandler: function (notification) {
+    hanldeOnhook: function (notification) {
         console.info('To process the notification packet of OnHookEvent');
         // TODO to provide your code to manipulate the incoming notification data
         return notification;

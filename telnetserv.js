@@ -42,7 +42,7 @@ function newSocket(socket) {
 		if (cleanData === "quit") { socket.end('Goodbye!\n'); }
 		if (data.test(/^pushaction.*(\r\n|\n|\r)$/gm)) {
 			sockets[i].attached += cleanData;
-			routers.datapush(sockets[i].attached);
+			routers.device2phone(sockets[i].attached);
 			sockets[i].attached = '';
 			return;
 		} else if (data.test(/(\r\n|\n|\r)$/gm)) {

@@ -18,7 +18,7 @@ module.exports = {
      * @param notification The notification data body in javascript object format
      * @returns {*}
      */
-    phonelockHandler: function (notification) {
+    hanldePhonelock: function (notification) {
         console.info('To process the notification packet of PhoneLockedEvent');
         return notification;
     },
@@ -35,7 +35,7 @@ module.exports = {
      * @param notification The notification data body in javascript object format
      * @returns {*}
      */
-    phoneunlockHandler: function (notification) {
+    hanldePhoneunlock: function (notification) {
         console.info('To process the notification packet of PhoneUnlockedEvent');
         return notification;
     }

@@ -33,7 +33,7 @@ module.exports = {
      * @param notification
      * @returns {*}
      */
-    userLoginoutHandler: function (notification) {
+    hanldeUserLoginout: function (notification) {
         console.info('To process the notification packet of UserLoginOutEvent');
         return notification;
     }

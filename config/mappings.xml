@@ -9,10 +9,17 @@
 
         <!-- All the receivers will receive manipulated data sent from the sender -->
         <receivers>
-            <receiver>127.0.0.1</receiver>
-            <receiver>127.0.0.1</receiver>
+            <receiver>192.168.1.101</receiver>
             <receiver>localhost</receiver>
-            <receiver>localhost</receiver>
+        </receivers>
+
+        <!-- The sender is Polycom phone here in the notification context-->
+        <sender>192.168.1.101</sender>
+
+        <!-- All the receivers will receive manipulated data sent from the sender -->
+        <receivers>
+            <receiver>192.168.1.101</receiver>
+            <receiver>127.0.0.1</receiver>
         </receivers>
     </notification>
 
@@ -25,8 +32,7 @@
         <!-- All the receivers will receive data sent from the sender -->
         <receivers>
             <receiver>127.0.0.1</receiver>
-            <receiver>127.0.0.1</receiver>
-            <receiver>localhost</receiver>
+            <receiver>192.168.1.101</receiver>
             <receiver>localhost</receiver>
         </receivers>
     </datapush>

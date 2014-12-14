@@ -26,42 +26,39 @@ function loadMappings() {
             return;
         }
 
-        var notificationSender = parsed.root.notification[0].sender[0],
-            notificationReceivers = parsed.root.notification[0].receivers[0].receiver;
+        var notificationSender = parsed.root.notification.sender,
+            notificationReceivers = parsed.root.notification.receivers.receiver;
         _mappingsNotification[notificationSender] = notificationReceivers;
 
-        var datapushSender = parsed.root.datapush[0].sender[0],
-            datapushReceivers = parsed.root.datapush[0].receivers[0].receiver;
+        var datapushSender = parsed.root.datapush.sender,
+            datapushReceivers = parsed.root.datapush.receivers.receiver;
         _mappingsDatapush[datapushSender] = datapushReceivers;
     });
 }
 
+loadMappings();
+
 /**
- * Determine whether the mappings file changed
- *
- * @returns {boolean}
+ * Reload the mappings file if it is changed
  */
-function isMappingsChanged() {
+function reloadFileIfNeeded() {
     var filestat = fs.statSync(_mappingsFilepath);
-    if (lastModifiedTime != filestat.mtime) {
-        lastModifiedTime = filestat.mtime;
+    if (lastModifiedTime === filestat.mtime) {
+        return;
     }
 
-    return false;
+    loadMappings();
+    lastModifiedTime = filestat.mtime;
 }
 
 module.exports = {
-    notification: function(src_ip){
-        if (isMappingsChanged()) {
-            loadMappings();
-        }
+    phone2device: function(src_ip){
+        reloadFileIfNeeded();
         return _mappingsNotification[src_ip];
     },
 
-    datapush: function(src_ip) {
-        if (isMappingsChanged()) {
-            loadMappings();
-        }
+    device2phone: function(src_ip) {
+        reloadFileIfNeeded();
         return _mappingsDatapush[src_ip];
     }
 };

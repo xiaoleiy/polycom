@@ -51,7 +51,7 @@ module.exports = {
      * @param password The password to access the phone's push service
      */
     pushhtml: function(phoneIP, username, password, html) {
-
+        // TODO: for pushing html page content
     },
 
     /**
@@ -63,6 +63,6 @@ module.exports = {
      * @param password The password to access the phone's push service
      */
     pushurl: function(phoneIP, username, password, url) {
-
+        // TODO: for pushing url of HTML page
     }
 };
