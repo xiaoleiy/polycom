@@ -23,7 +23,6 @@ module.exports = {
      * @returns {*}
      */
     handleIncomingCall: function (notification) {
-        console.info('To process the notification packet of IncomingCallEvent');
         // TODO to provide your code to manipulate the incoming notification data
         return notification;
     },
@@ -45,7 +44,6 @@ module.exports = {
      * @returns {*}
      */
     handleOutgoingCall: function (notification) {
-        console.info('To process the notification packet of OutgoingCallEvent');
         // TODO to provide your code to manipulate the incoming notification data
         return notification;
     },
@@ -80,7 +78,6 @@ module.exports = {
      * @returns {*}
      */
     hanldeCallstateChange: function (notification) {
-        console.info('To process the notification packet of CallStateChangeEvent');
         // TODO to provide your code to manipulate the incoming notification data
         return notification;
     }

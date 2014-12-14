@@ -2,38 +2,42 @@
 <root>
 
     <!-- The mappings for the data flow from Polycom phone to the hardware -->
-    <notification>
+    <phone2devices>
 
-        <!-- The sender is Polycom phone here in the notification context-->
-        <sender>127.0.0.1</sender>
+        <mapping>
+            <!-- The sender is Polycom phone here in the notification context-->
+            <phone>127.0.0.1</phone>
 
-        <!-- All the receivers will receive manipulated data sent from the sender -->
-        <receivers>
-            <receiver>192.168.1.101</receiver>
-            <receiver>localhost</receiver>
-        </receivers>
+            <!-- All the receivers will receive manipulated data sent from the sender -->
+            <devices>
+                <device>192.168.1.101</device>
+                <device>localhost</device>
+            </devices>
+        </mapping>
 
-        <!-- The sender is Polycom phone here in the notification context-->
-        <sender>192.168.1.101</sender>
+        <mapping>
+            <!-- The sender is Polycom phone here in the notification context-->
+            <phone>192.168.1.101</phone>
 
-        <!-- All the receivers will receive manipulated data sent from the sender -->
-        <receivers>
-            <receiver>192.168.1.101</receiver>
-            <receiver>127.0.0.1</receiver>
-        </receivers>
-    </notification>
+            <!-- All the receivers will receive manipulated data sent from the sender -->
+            <devices>
+                <device>192.168.1.101</device>
+                <device>127.0.0.1</device>
+            </devices>
+        </mapping>
+    </phone2devices>
 
     <!-- The mappings for the data flow from the hardware to Polycom phones -->
-    <datapush>
+    <!--<datapush>
 
-        <!-- The sender is a hardware in the context of datapush -->
+        &lt;!&ndash; The sender is a hardware in the context of datapush &ndash;&gt;
         <sender>127.0.0.1</sender>
 
-        <!-- All the receivers will receive data sent from the sender -->
+        &lt;!&ndash; All the receivers will receive data sent from the sender &ndash;&gt;
         <receivers>
             <receiver>127.0.0.1</receiver>
             <receiver>192.168.1.101</receiver>
             <receiver>localhost</receiver>
         </receivers>
-    </datapush>
+    </datapush>-->
 </root>

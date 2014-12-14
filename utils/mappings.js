@@ -10,29 +10,30 @@
 var fs          = require('fs'),
     path        = require('path'),
     xml2js 		= require('xml2js'),
-    xmlparser   = new xml2js.Parser(xml2js.defaults["0.1"]);
-
-var _mappingsFilepath     = './' + path.sep + 'config' + path.sep + 'mappings.xml',
-    _mappingsNotification = _mappingsNotification || {},
-    _mappingsDatapush     = _mappingsDatapush || {},
-    lastModifiedTime      = 0;
+    xmlparser   = new xml2js.Parser(xml2js.defaults["0.1"]),
+    _filepath   = './' + path.sep + 'config' + path.sep + 'mappings.xml',
+    _mappingsPhone2Devices = _mappingsPhone2Devices || {},
+    _lastModifiedTime      = 0;
 
 function loadMappings() {
-    var mappingsXml = fs.readFileSync(_mappingsFilepath);
+    var mappingsXml = fs.readFileSync(_filepath);
     xmlparser.parseString(mappingsXml, function(err, parsed){
         // TODO: to handle the error
         if (err) {
-            console.error('The config ' + _mappingsFilepath + ' is invalid XML. Mappings will not be available for routers.')
+            console.error('The config ' + _filepath + ' is invalid XML. Mappings will not be available for routers.')
             return;
         }
 
-        var notificationSender = parsed.root.notification.sender,
-            notificationReceivers = parsed.root.notification.receivers.receiver;
-        _mappingsNotification[notificationSender] = notificationReceivers;
+        var mappings = parsed.phone2devices.mapping;
+        for (var idx = 0; idx < mappings.length; idx++) {
+            var mapping = mappings[idx];
+            var phone = mapping.phone;
+            _mappingsPhone2Devices[phone] = mapping.devices.device;
+        }
 
-        var datapushSender = parsed.root.datapush.sender,
-            datapushReceivers = parsed.root.datapush.receivers.receiver;
-        _mappingsDatapush[datapushSender] = datapushReceivers;
+//        var datapushSender = parsed.datapush.sender,
+//            datapushReceivers = parsed.datapush.receivers.receiver;
+//        _mappingsDatapush[datapushSender] = datapushReceivers;
     });
 }
 
@@ -42,23 +43,23 @@ loadMappings();
  * Reload the mappings file if it is changed
  */
 function reloadFileIfNeeded() {
-    var filestat = fs.statSync(_mappingsFilepath);
-    if (lastModifiedTime === filestat.mtime) {
+    var fstat = fs.statSync(_filepath);
+    if (_lastModifiedTime === fstat.mtime) {
         return;
     }
 
     loadMappings();
-    lastModifiedTime = filestat.mtime;
+    _lastModifiedTime = fstat.mtime;
 }
 
 module.exports = {
     phone2device: function(src_ip){
         reloadFileIfNeeded();
-        return _mappingsNotification[src_ip];
-    },
+        return _mappingsPhone2Devices[src_ip];
+    }
 
-    device2phone: function(src_ip) {
+    /*device2phone: function(src_ip) {
         reloadFileIfNeeded();
         return _mappingsDatapush[src_ip];
-    }
+    }*/
 };

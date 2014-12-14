@@ -1,7 +1,7 @@
 /**
  * The handler to manipulate the event notifications of Line Registration and Unregistration
  * , received from the Polycom phone.
- * 
+ *
  * Created by Xiaolei Y. on 12/11/2014.
  */
 
@@ -20,7 +20,7 @@ module.exports = {
      * @returns {*}
      */
     hanldeLineReg: function (notification) {
-        console.info('To process the notification packet of LineRegistrationEvent');
+        // TODO to provide your code to manipulate the incoming notification data
         return notification;
     },
 
@@ -38,7 +38,7 @@ module.exports = {
      * @returns {*}
      */
     hanldeLineUnreg: function (notification) {
-        console.info('To process the notification packet of LineUnregistrationEvent');
+        // TODO to provide your code to manipulate the incoming notification data
         return notification;
     }
 }

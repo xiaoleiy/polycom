@@ -6,12 +6,11 @@
  * Created by idealab on 12/11/2014.
  */
 
-var fs       		 = require('fs'),
-    xml2js 			 = require('xml2js'),
+var xml2js 			 = require('xml2js'),
     telnetclient 	 = require('./telnetclient'),
     mappings 		 = require('./utils/mappings'),
     httpclient       = require('./httpclient'),
-    callHandlers 	 = require('./handlers/call-events'),
+    callHandler 	 = require('./handlers/call-events'),
     hooksHandler 	 = require('./handlers/hook-events'),
     lineRegHandler 	 = require('./handlers/line-reg-events'),
     phoneLockHandler = require('./handlers/phone-lock-events'),
@@ -23,18 +22,21 @@ var fs       		 = require('fs'),
  *
  * @type {{IncomingCallEvent: Function, OutgoingCallEvent: Function, OffHookEvent: Function, OnHookEvent: Function, PhoneLockedEvent: Function, PhoneUnlockedEvent: Function, CallStateChangeEvent: Function, LineRegistrationEvent: Function, LineUnregistrationEvent: Function, UserLoginOutEvent: Function}}
  */
-var handlers = {
-    'IncomingCallEvent': 		callHandlers.handleIncomingCall,
-    'OutgoingCallEvent': 		callHandlers.handleOutgoingCall,
+var _handlers = {
+    'IncomingCallEvent': 		callHandler.handleIncomingCall,
+    'OutgoingCallEvent': 		callHandler.handleOutgoingCall,
+    'CallStateChangeEvent': 	callHandler.hanldeCallstateChange,
     'OffHookEvent': 			hooksHandler.hanldeOffhook,
     'OnHookEvent': 				hooksHandler.hanldeOnhook,
     'PhoneLockedEvent': 		phoneLockHandler.hanldePhonelock,
     'PhoneUnlockedEvent': 		phoneLockHandler.hanldePhoneunlock,
-    'CallStateChangeEvent': 	callHandlers.hanldeCallstateChange,
     'LineRegistrationEvent': 	lineRegHandler.hanldeLineReg,
     'LineUnregistrationEvent': 	lineRegHandler.hanldeLineUnreg,
     'UserLoginOutEvent': 		userLoginHandler.hanldeUserLoginout
 };
+
+// The telnet port on which server is listening
+var _telnetport = '9023';
 
 module.exports = {
 
@@ -45,7 +47,7 @@ module.exports = {
      */
     phone2device: function(inbound) {
         var eventType = Object.getOwnPropertyNames(inbound)[0];
-        var handler = handlers[eventType];
+        var handler = _handlers[eventType];
         if (!handler) {
             console.error('Received invalid event which could be not processed: ' + eventType);
             return;
@@ -67,7 +69,7 @@ module.exports = {
         // send outbound message the devices configured in mappings.xml
 		for (var idx = 0; idx < receivers.length; idx++) {
 			var receiver = receivers[idx];
-			telnetclient.send(receiver, outboundXml);
+			telnetclient.send(receiver, _telnetport, outboundXml);
 		}
     },
 

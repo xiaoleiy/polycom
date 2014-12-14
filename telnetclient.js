@@ -13,8 +13,8 @@ module.exports = {
      * @param serverport The port on which the target device listen
      * @param packet The packet to be sent
      */
-    send: function (serverip, packet) {
-        var client = net.connect('23', serverip);
+    send: function (serverip, serverport, packet) {
+        var client = net.connect(serverport, serverip);
         client.on('data', function (data) {
             console.info('' + data);
 //            process.stdin.once('data', function(chunk){

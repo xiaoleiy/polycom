@@ -19,7 +19,6 @@ module.exports = {
      * @returns {*}
      */
     hanldeOffhook: function (notification) {
-        console.info('To process the notification packet of OffHookEvent');
         // TODO to provide your code to manipulate the incoming notification data
         return notification;
     },
@@ -37,7 +36,6 @@ module.exports = {
      * @returns {*}
      */
     hanldeOnhook: function (notification) {
-        console.info('To process the notification packet of OnHookEvent');
         // TODO to provide your code to manipulate the incoming notification data
         return notification;
     }

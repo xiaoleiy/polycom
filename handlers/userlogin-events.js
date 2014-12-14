@@ -34,7 +34,7 @@ module.exports = {
      * @returns {*}
      */
     hanldeUserLoginout: function (notification) {
-        console.info('To process the notification packet of UserLoginOutEvent');
+        // TODO to provide your code to manipulate the incoming notification data
         return notification;
     }
 }

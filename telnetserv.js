@@ -6,8 +6,9 @@
  */
 
 var net     = require('net'),
-	routers = require('routers'),
-    sockets = [];
+	routers = require('./routers'),
+    sockets = [],
+    regexpCmd = new RegExp(/^pushaction.*(\r\n|\n|\r)$/gm);
 
 /*
  * Cleans the input of carriage return, newline
@@ -32,15 +33,14 @@ function closeSocket(socket) {
  * Callback method executed when a new TCP socket is opened.
  */
 function newSocket(socket) {
-    var welcome = 'Welcome to the telnet server!\n'
-				+ 'usage: \n'
-				+ '\tpushaction <action_uri_key>\n';
+    var welcome = 'Welcome to the telnet server!';
     socket.write(welcome);
+    socket.write('');
     sockets.push(socket);
     socket.on('data', function (data) {
     	var cleanData = cleanInput(data);
 		if (cleanData === "quit") { socket.end('Goodbye!\n'); }
-		if (data.test(/^pushaction.*(\r\n|\n|\r)$/gm)) {
+		if (regexpCmd.test()) {
 			sockets[i].attached += cleanData;
 			routers.device2phone(sockets[i].attached);
 			sockets[i].attached = '';
@@ -69,6 +69,5 @@ function newSocket(socket) {
 // Create a new server and provide a callback for when a connection occurs
 var server = net.createServer(newSocket);
 
-// Listen on port 23
 server.listen(9023);
-console.info('Started telnet server on port 9001.');
+console.info('Started telnet server on port 9023.');

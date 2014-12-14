@@ -34,8 +34,8 @@ module.exports = {
             encoding: 'utf8',
             body: _actionTemplate.replace(/_action_/, action)
         }, function (error, response, body) {
-            if (response.statusCode >= 200 && response.statusCode < 300) {
-                console.log('[' + response.statusCode + '] data pushed to the phone successfully: ');
+            if (response.statusCode && response.statusCode >= 200 && response.statusCode < 300) {
+                console.log('[' + response.statusCode + '] action pushed to the phone successfully: ' + action);
             } else {
                 console.log('[' + response.statusCode + '] failed to push data to the phone with error: ' + body);
             }

@@ -19,7 +19,7 @@ module.exports = {
      * @returns {*}
      */
     hanldePhonelock: function (notification) {
-        console.info('To process the notification packet of PhoneLockedEvent');
+        // TODO to provide your code to manipulate the incoming notification data
         return notification;
     },
 
@@ -36,7 +36,7 @@ module.exports = {
      * @returns {*}
      */
     hanldePhoneunlock: function (notification) {
-        console.info('To process the notification packet of PhoneUnlockedEvent');
+        // TODO to provide your code to manipulate the incoming notification data
         return notification;
     }
 }
