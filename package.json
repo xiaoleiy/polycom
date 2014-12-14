@@ -5,6 +5,9 @@
     "version": "0.0.1",
     "private": true,
     "dependencies": {
-        "express": "~4.9.0"
+        "request": "2.50.0",
+        "telnet": "0.0.1",
+        "xml2js": "0.4.4"
+
     }
 }
