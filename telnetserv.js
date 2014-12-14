@@ -9,7 +9,7 @@ var telnet = require('telnet'),
     routers = require('./routers');
 var regexpCmd = new RegExp(/^pushaction\s.*$/gm),
     isEnter = new RegExp(/(\r\n|\n|\r)/gm),
-    isValid = new RegExp(/[a-zA-Z0-9\s]+/),
+    isValid = new RegExp(/[a-zA-Z0-9\s:#_-]+/),
     usage = '\nInvalid syntax for pushing data to Polycom phones.\nusage: pushaction <action_uri_key>\n';
 
 telnet.createServer(function (client) {
@@ -27,9 +27,9 @@ telnet.createServer(function (client) {
         client.write(b);
 
         var input = b.toString('utf8');
-        if (!isValid.test(input)) { //valid string
-            return;
-        }
+//        if (!isValid.test(input)) { //valid string
+//            return;
+//        }
 
         if (isEnter.test(input)) { //is enter
             if (!regexpCmd.test(client.stringBuf)) { // is valid command
@@ -42,7 +42,7 @@ telnet.createServer(function (client) {
             console.info('The message will be sent: ' + client.stringBuf);
             client.write('\nThe message will be sent: ' + client.stringBuf + '\n');
             client.write('\n');
-            routers.device2phone(routers);
+            routers.device2phone(client.stringBuf.split(/\s/)[1]);
             client.stringBuf = '';
             return;
         }

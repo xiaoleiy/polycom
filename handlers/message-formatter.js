@@ -50,7 +50,7 @@ function toObject(decodedData) {
         phoneIP: decodedSlices[1],
         username: username,
         password: password,
-        data: decodedSlices[4]
+        data: decodedSlices[3]
     }
 }
 
