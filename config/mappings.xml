@@ -25,18 +25,4 @@
             </devices>
         </mapping>
     </phone2devices>
-
-    <!-- The mappings for the data flow from the hardware to Polycom phones -->
-    <!--<datapush>
-
-        &lt;!&ndash; The sender is a hardware in the context of datapush &ndash;&gt;
-        <sender>127.0.0.1</sender>
-
-        &lt;!&ndash; All the receivers will receive data sent from the sender &ndash;&gt;
-        <receivers>
-            <receiver>127.0.0.1</receiver>
-            <receiver>192.168.1.101</receiver>
-            <receiver>localhost</receiver>
-        </receivers>
-    </datapush>-->
 </root>

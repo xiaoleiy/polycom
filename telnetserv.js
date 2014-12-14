@@ -1,5 +1,5 @@
 /**
- * The telnet server implementation listening on port 23 for incoming packet from the devices.
+ * The telnet server implementation listening for incoming packet from the devices.
  * The server will transfer incoming packet to the routers which will interpret and send the packet to Polycom phones.
  *
  * Created by Xiaolei Y. (yuleibest@gmail.com) on 12/11/2014.
@@ -7,9 +7,8 @@
 
 var telnet = require('telnet'),
     routers = require('./routers');
-var regexpCmd = new RegExp(/^pushaction\s.*$/gm),
+var regexpCmd = new RegExp(/^pushaction\s.*$/),
     isEnter = new RegExp(/(\r\n|\n|\r)/gm),
-    isValid = new RegExp(/[a-zA-Z0-9\s:#_-]+/),
     usage = '\nInvalid syntax for pushing data to Polycom phones.\nusage: pushaction <action_uri_key>\n';
 
 telnet.createServer(function (client) {
@@ -27,10 +26,6 @@ telnet.createServer(function (client) {
         client.write(b);
 
         var input = b.toString('utf8');
-//        if (!isValid.test(input)) { //valid string
-//            return;
-//        }
-
         if (isEnter.test(input)) { //is enter
             if (!regexpCmd.test(client.stringBuf)) { // is valid command
                 client.write(usage);
@@ -48,7 +43,6 @@ telnet.createServer(function (client) {
         }
 
         client.stringBuf += input;
-//        console.info('client.stringBuf: ' + client.stringBuf);
     });
 
     client.on('error', function (e) {
