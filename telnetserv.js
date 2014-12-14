@@ -2,7 +2,7 @@
  * The telnet server implementation listening on port 23 for incoming packet from the devices.
  * The server will transfer incoming packet to the routers which will interpret and send the packet to Polycom phones.
  *
- * Created by Xiaolei Y. on 12/11/2014.
+ * Created by Xiaolei Y. (yuleibest@gmail.com) on 12/11/2014.
  */
 
 var telnet = require('telnet'),

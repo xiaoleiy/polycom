@@ -1,7 +1,7 @@
 /**
  * The HTTP client to push data to the Polycom phones.
  * 
- * Created by idealab on 12/11/2014.
+ * Created by Xiaolei Y. (yuleibest@gmail.com) on 12/11/2014.
  */
 var request = require('request');
 //var _actionTemplate = "<PolycomIPPhone><Data priority=\"Critical\">Key:Directories</Data></PolycomIPPhone>";

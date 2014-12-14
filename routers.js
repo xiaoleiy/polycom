@@ -3,7 +3,7 @@
  * For the dataflow of events notifying, handlers for incoming notification are required.
  * For the dataflow of data push, data unmarshalling is required to push to the Polycom phones.
  * 
- * Created by idealab on 12/11/2014.
+ * Created by Xiaolei Y. (yuleibest@gmail.com) on 12/11/2014.
  */
 
 var xml2js 			 = require('xml2js'),
@@ -36,7 +36,7 @@ var _handlers = {
 };
 
 // The telnet port on which server is listening
-var _telnetport = '9023';
+var _telnetport = '23';
 
 module.exports = {
 
@@ -69,7 +69,7 @@ module.exports = {
         // send outbound message the devices configured in mappings.xml
 		for (var idx = 0; idx < receivers.length; idx++) {
 			var receiver = receivers[idx];
-			telnetclient.send(receiver, _telnetport, outboundXml);
+			telnetclient.send(receiver, outboundXml);
 		}
     },
 

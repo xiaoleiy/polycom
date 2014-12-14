@@ -4,7 +4,7 @@
  *      1) to change this javascript filename
  *      2) to change the mappings.xml filename
  *
- * Created by Xiaolei Y. on 12/11/2014.
+ * Created by Xiaolei Y. (yuleibest@gmail.com) on 12/11/2014.
  */
 
 var fs          = require('fs'),
@@ -18,7 +18,6 @@ var fs          = require('fs'),
 function loadMappings() {
     var mappingsXml = fs.readFileSync(_filepath);
     xmlparser.parseString(mappingsXml, function(err, parsed){
-        // TODO: to handle the error
         if (err) {
             console.error('The config ' + _filepath + ' is invalid XML. Mappings will not be available for routers.')
             return;
@@ -30,10 +29,6 @@ function loadMappings() {
             var phone = mapping.phone;
             _mappingsPhone2Devices[phone] = mapping.devices.device;
         }
-
-//        var datapushSender = parsed.datapush.sender,
-//            datapushReceivers = parsed.datapush.receivers.receiver;
-//        _mappingsDatapush[datapushSender] = datapushReceivers;
     });
 }
 
@@ -42,7 +37,7 @@ loadMappings();
 /**
  * Reload the mappings file if it is changed
  */
-function reloadFileIfNeeded() {
+function reloadFileIfRequired() {
     var fstat = fs.statSync(_filepath);
     if (_lastModifiedTime === fstat.mtime) {
         return;
@@ -54,12 +49,7 @@ function reloadFileIfNeeded() {
 
 module.exports = {
     phone2device: function(src_ip){
-        reloadFileIfNeeded();
+        reloadFileIfRequired();
         return _mappingsPhone2Devices[src_ip];
     }
-
-    /*device2phone: function(src_ip) {
-        reloadFileIfNeeded();
-        return _mappingsDatapush[src_ip];
-    }*/
 };

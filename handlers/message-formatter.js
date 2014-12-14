@@ -2,7 +2,7 @@
  * The handler to unmarshall data packet of phone actions from the hardwares.
  * Regex matching is recommanded to most of the data unmarshlling.
  * 
- * Created by Xiaolei Y. on 12/11/2014.
+ * Created by Xiaolei Y. (yuleibest@gmail.com) on 12/11/2014.
  */
 
 /**

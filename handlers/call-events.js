@@ -2,7 +2,7 @@
  * The handler to manipulate the event notifications of IncomingCall and OutgoingCall 
  * , received from the Polycom phone.
  * 
- * Created by Xiaolei Y. on 12/11/2014.
+ * Created by Xiaolei Y. (yuleibest@gmail.com) on 12/11/2014.
  */
 
 module.exports = {

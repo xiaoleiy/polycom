@@ -1,7 +1,7 @@
 /**
  * The HTTP server listening for Polycom phone's incoming event notifications.
  *
- * Created by Xiaolei Y. on 12/10/2014.
+ * Created by Xiaolei Y. (yuleibest@gmail.com) on 12/10/2014.
  */
 var http     = require('http'),
     xml2js   = require('xml2js'),

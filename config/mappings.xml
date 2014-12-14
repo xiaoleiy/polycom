@@ -1,4 +1,3 @@
-<!-- TODO: to change the root name -->
 <root>
 
     <!-- The mappings for the data flow from Polycom phone to the hardware -->
@@ -10,8 +9,8 @@
 
             <!-- All the receivers will receive manipulated data sent from the sender -->
             <devices>
-                <device>192.168.1.101</device>
-                <device>localhost</device>
+                <device>192.168.1.101:23</device>
+                <device>localhost:23</device>
             </devices>
         </mapping>
 
@@ -21,8 +20,8 @@
 
             <!-- All the receivers will receive manipulated data sent from the sender -->
             <devices>
-                <device>192.168.1.101</device>
-                <device>127.0.0.1</device>
+                <device>192.168.1.101:23</device>
+                <device>127.0.0.1:23</device>
             </devices>
         </mapping>
     </phone2devices>
