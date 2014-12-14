@@ -23,7 +23,6 @@ module.exports = {
         }).on('connect', function () {
             console.info('Connected to the server ' + serverip + ':' + serverport);
             client.end(packet);
-            client.destroy();
         }).on('error', function (err) {
             console.error(err);
         }).on('timeout', function(){

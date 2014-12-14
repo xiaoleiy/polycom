@@ -5,69 +5,63 @@
  * Created by Xiaolei Y. on 12/11/2014.
  */
 
-var net     = require('net'),
-	routers = require('./routers'),
-    sockets = [],
-    regexpCmd = new RegExp(/^pushaction.*(\r\n|\n|\r)$/gm);
+var telnet = require('telnet'),
+    routers = require('./routers');
+var regexpCmd = new RegExp(/^pushaction\s.*$/gm),
+    isEnter = new RegExp(/(\r\n|\n|\r)/gm),
+    isValid = new RegExp(/[a-zA-Z0-9\s]+/),
+    usage = '\nInvalid syntax for pushing data to Polycom phones.\nusage: pushaction <action_uri_key>\n';
 
-/*
- * Cleans the input of carriage return, newline
- */
-function cleanInput(data) {
-    return data.toString().replace(/(\r\n|\n|\r)/gm, "");
-}
+telnet.createServer(function (client) {
 
-/*
- * Method executed when a socket ends
- */
-function closeSocket(socket) {
-    var idx = sockets.indexOf(socket);
-    if (idx != -1) {
-        socket.end();
-        socket.destroy();
-        sockets.splice(i, 1);
-    }
-}
+    client.stringBuf = '';
 
-/*
- * Callback method executed when a new TCP socket is opened.
- */
-function newSocket(socket) {
-    var welcome = 'Welcome to the telnet server!';
-    socket.write(welcome);
-    socket.write('');
-    sockets.push(socket);
-    socket.on('data', function (data) {
-    	var cleanData = cleanInput(data);
-		if (cleanData === "quit") { socket.end('Goodbye!\n'); }
-		if (regexpCmd.test()) {
-			sockets[i].attached += cleanData;
-			routers.device2phone(sockets[i].attached);
-			sockets[i].attached = '';
-			return;
-		} else if (data.test(/(\r\n|\n|\r)$/gm)) {
-			var usage = 'invalid syntax for pushing data to Polycom phones.\nusage: \n\tpushaction <action_uri_key>\n';
-			sockets[i].write(usage);
-			sockets[i].attached = '';
-		}
-        
-		for (var i = 0; i < sockets.length; i++) {
-			if (sockets[i] === socket) {
-				// sockets[i].write(data);
-				sockets[i].attached += cleanData;
-				break;
-			}
-		}
-        console.log(data.toString());
+    // make unicode characters work properly
+    client.do.transmit_binary();
+
+    // make the client emit 'window size' events
+    client.do.window_size();
+
+    // listen for the actual data from the client
+    client.on('data', function (b) {
+        client.write(b);
+
+        var input = b.toString('utf8');
+        if (!isValid.test(input)) { //valid string
+            return;
+        }
+
+        if (isEnter.test(input)) { //is enter
+            if (!regexpCmd.test(client.stringBuf)) { // is valid command
+                client.write(usage);
+                console.error(client.stringBuf + ' is invalid message.');
+                client.stringBuf = '';
+                return;
+            }
+
+            console.info('The message will be sent: ' + client.stringBuf);
+            client.write('\nThe message will be sent: ' + client.stringBuf + '\n');
+            client.write('\n');
+            routers.device2phone(routers);
+            client.stringBuf = '';
+            return;
+        }
+
+        client.stringBuf += input;
+//        console.info('client.stringBuf: ' + client.stringBuf);
     });
-    
-    socket.on('end', function () {
-        closeSocket(socket);
+
+    client.on('error', function (e) {
+        if (e.code === "ECONNRESET") {
+            console.log("Client quit unexpectedly; ignoring exception.");
+        } else {
+            console.log("Exception encountered:");
+            console.log(e.code);
+            process.exit(1);
+        }
     });
-}
 
-// Create a new server and provide a callback for when a connection occurs
-var server = net.createServer(newSocket);
+    client.write('\nConnected to Telnet server!\n')
 
-server.listen(9023);
+}).listen(9023);
 console.info('Started telnet server on port 9023.');
